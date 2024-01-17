@@ -7,10 +7,10 @@ import services.database as db
 
 
 def List():
-    paramId = st.experimental_get_query_params()
+    paramId = st.query_params.get_all("id")
 
-    if paramId.get("id") == None:
-        st.experimental_set_query_params()
+    if paramId== []:
+        st.query_params.clear()
         colms = st.columns((1, 2, 1, 2, 1, 1))
         campos = ['Nº', 'Nome', 'Idade', 'Profissão', 'Excluir', 'Alterar']
 
@@ -34,13 +34,11 @@ def List():
                     'Excluido','btnExcluir' + str(item.id)
                 )
             if on_click_edit:
-                st.experimental_set_query_params(
-                    id=[item.id]
-                )
-                st.experimental_rerun()
+                st.query_params["id"]=item.id
+                st.rerun()
     else:
         on_click_return = st.button("Return")
         if on_click_return:
-            st.experimental_set_query_params()
-            st.experimental_rerun()
+            st.query_params.clear()
+            st.rerun()
         PageCreateCliente.Create()  
