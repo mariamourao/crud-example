@@ -6,9 +6,6 @@ import numpy as np
 import psycopg2
 from psycopg2 import sql
 
-# Assumindo que db é uma instância de conexão criada em algum lugar
-# Você precisa garantir que a conexão esteja aberta antes de chamar essas funções
-
 def Incluir(cliente):
     query = """
     INSERT INTO Cliente (cliNome, cliIdade, cliProfissao) 
@@ -29,7 +26,7 @@ def SelecionarById(id):
     for row in db.cursor.fetchall():
         costumerList.append(cliente.Cliente(row[0], row[1], row[2], row[3]))
 
-    return costumerList[0] if costumerList else None
+    return costumerList[0] #if costumerList else None
 
 def Alterar(cliente):
     print("alterando...")
