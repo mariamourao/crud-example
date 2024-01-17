@@ -4,14 +4,12 @@ import streamlit as st;
 import Controllers.ClienteController as ClienteController
 import models.Cliente as cliente
 def Create():
-    idAlteracao = st.experimental_get_query_params()
+    idAlteracao = st.query_params.get("id")
     clienteRecuperado = None
-    if idAlteracao.get("id") != None:
-        idAlteracao = idAlteracao.get("id")[0]
+    if idAlteracao != None:
+        idAlteracao = st.query_params.get("id")
         clienteRecuperado = ClienteController.SelecionarById(idAlteracao)
-        st.experimental_set_query_params(
-            id=[clienteRecuperado.id]
-        )
+        st.query_params["id"]= clienteRecuperado.id
         st.title("Alterar cliente")
     else:
         st.title("Incluir cliente")
@@ -34,7 +32,7 @@ def Create():
             ClienteController.Incluir(cliente.Cliente(0, input_name, input_age, input_occupation))
             st.success("Cliente incluido com sucesso!")
         else:
-            st.experimental_set_query_params()
+            st.query_params.clear()
             ClienteController.Alterar(cliente.Cliente(clienteRecuperado.id, input_name, input_age, input_occupation))
             st.success("Cliente alterado com sucesso!")
         
